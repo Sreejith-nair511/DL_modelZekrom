@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-to-3D VR Pipeline</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .pipeline-container {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            margin-bottom: 2rem;
+        }
+
+        .input-section {
+            margin-bottom: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .config-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .config-group {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid #e9ecef;
+        }
+
+        .config-group h3 {
+            margin-bottom: 1rem;
+            color: #495057;
+            font-size: 1.1rem;
+        }
+
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            margin-right: 0.5rem;
+        }
+
+        .run-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .run-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .run-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .progress-section {
+            display: none;
+            margin-bottom: 2rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .stage-status {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stage-item {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s;
+        }
+
+        .stage-item.active {
+            border-color: #667eea;
+            background: #e7f3ff;
+        }
+
+        .stage-item.completed {
+            border-color: #28a745;
+            background: #d4edda;
+        }
+
+        .stage-item.error {
+            border-color: #dc3545;
+            background: #f8d7da;
+        }
+
+        .results-section {
+            display: none;
+        }
+
+        .result-item {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #28a745;
+        }
+
+        .download-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .download-link {
+            background: #28a745;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+
+        .download-link:hover {
+            background: #218838;
+        }
+
+        .log-section {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+
+        .error-message {
+            background: #fed7d7;
+            color: #c53030;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #c53030;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .config-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎨 AI-to-3D VR Pipeline</h1>
+            <p>Transform your imagination into immersive VR experiences</p>
+        </div>
+
+        <div class="pipeline-container">
+            <div class="input-section">
+                <div class="input-group">
+                    <label for="prompt">Text Prompt</label>
+                    <textarea id="prompt" placeholder="Describe the scene you want to create (e.g., 'a cozy cabin in the woods with warm lighting')"></textarea>
+                </div>
+
+                <div class="input-group">
+                    <label for="image-upload">Or Upload Reference Image</label>
+                    <input type="file" id="image-upload" accept="image/*">
+                </div>
+            </div>
+
+            <div class="config-section">
+                <div class="config-group">
+                    <h3>🎬 Video Generation</h3>
+                    <div class="input-group">
+                        <label for="video-model">Model</label>
+                        <select id="video-model">
+                            <option value="stable_video_diffusion">Stable Video Diffusion</option>
+                            <option value="animate_diff">AnimateDiff</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="video-resolution">Resolution</label>
+                        <select id="video-resolution">
+                            <option value="512x512">512x512</option>
+                            <option value="768x768">768x768</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="video-frames">Number of Frames</label>
+                        <input type="number" id="video-frames" value="25" min="10" max="50">
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>🗺️ Depth Extraction</h3>
+                    <div class="input-group">
+                        <label for="depth-model">Model</label>
+                        <select id="depth-model">
+                            <option value="midas">MiDaS</option>
+                            <option value="marigold">Marigold</option>
+                            <option value="depth_anything">Depth Anything</option>
+                        </select>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="temporal-consistency" checked>
+                        <label for="temporal-consistency">Temporal Consistency</label>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>🏗️ 3D Reconstruction</h3>
+                    <div class="input-group">
+                        <label for="reconstruction-method">Method</label>
+                        <select id="reconstruction-method">
+                            <option value="rgbd_fusion">RGBD Fusion</option>
+                            <option value="nerf_nerfacto">NeRF (Nerfacto)</option>
+                            <option value="nerf_instant_ngp">Instant-NGP</option>
+                            <option value="gaussian_splatting">Gaussian Splatting</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="export-format">Export Format</label>
+                        <select id="export-format">
+                            <option value=".glb">GLB</option>
+                            <option value=".obj">OBJ</option>
+                            <option value=".ply">PLY</option>
+                            <option value=".splat">Gaussian Splat</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>🎮 Game Engine</h3>
+                    <div class="input-group">
+                        <label for="game-engine">Engine</label>
+                        <select id="game-engine">
+                            <option value="unity">Unity</option>
+                            <option value="unreal">Unreal Engine</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="project-name">Project Name</label>
+                        <input type="text" id="project-name" value="AI_VR_Scene" placeholder="Project name">
+                    </div>
+                </div>
+
+                <div class="config-group">
+                    <h3>🥽 VR Deployment</h3>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="deploy-quest" checked>
+                        <label for="deploy-quest">Meta Quest</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="deploy-vision-pro">
+                        <label for="deploy-vision-pro">Apple Vision Pro</label>
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="deploy-webxr" checked>
+                        <label for="deploy-webxr">WebXR</label>
+                    </div>
+                </div>
+            </div>
+
+            <button class="run-button" onclick="runPipeline()">
+                🚀 Generate VR Experience
+            </button>
+
+            <div class="progress-section" id="progress-section">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill"></div>
+                </div>
+                <div class="stage-status" id="stage-status">
+                    <div class="stage-item" id="stage-1">
+                        <h4>🎬 Video Generation</h4>
+                        <p>Waiting...</p>
+                    </div>
+                    <div class="stage-item" id="stage-2">
+                        <h4>🗺️ Depth Extraction</h4>
+                        <p>Waiting...</p>
+                    </div>
+                    <div class="stage-item" id="stage-3">
+                        <h4>🏗️ 3D Reconstruction</h4>
+                        <p>Waiting...</p>
+                    </div>
+                    <div class="stage-item" id="stage-4">
+                        <h4>🎮 Game Engine</h4>
+                        <p>Waiting...</p>
+                    </div>
+                    <div class="stage-item" id="stage-5">
+                        <h4>🥽 VR Deployment</h4>
+                        <p>Waiting...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section" id="results-section">
+                <h2>✅ Pipeline Complete!</h2>
+                <div id="results-content"></div>
+            </div>
+
+            <div class="log-section" id="log-section" style="display: none;">
+                <div id="log-content"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSessionId = null;
+        let logMessages = [];
+
+        function addLog(message) {
+            const timestamp = new Date().toLocaleTimeString();
+            logMessages.push(`[${timestamp}] ${message}`);
+            
+            const logContent = document.getElementById('log-content');
+            logContent.innerHTML = logMessages.join('\n');
+            logContent.scrollTop = logContent.scrollHeight;
+            
+            document.getElementById('log-section').style.display = 'block';
+        }
+
+        function updateStage(stageNum, status, message) {
+            const stageElement = document.getElementById(`stage-${stageNum}`);
+            const statusText = stageElement.querySelector('p');
+            
+            stageElement.className = `stage-item ${status}`;
+            statusText.textContent = message;
+            
+            if (status === 'active') {
+                addLog(`Stage ${stageNum}: ${message}`);
+            } else if (status === 'completed') {
+                addLog(`Stage ${stageNum}: Completed - ${message}`);
+            } else if (status === 'error') {
+                addLog(`Stage ${stageNum}: Error - ${message}`);
+            }
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progress-fill').style.width = `${percentage}%`;
+        }
+
+        function getConfig() {
+            const platforms = [];
+            if (document.getElementById('deploy-quest').checked) platforms.push('quest');
+            if (document.getElementById('deploy-vision-pro').checked) platforms.push('vision_pro');
+            if (document.getElementById('deploy-webxr').checked) platforms.push('webxr');
+
+            return {
+                video: {
+                    model_name: document.getElementById('video-model').value,
+                    resolution: document.getElementById('video-resolution').value.split('x').map(Number),
+                    num_frames: parseInt(document.getElementById('video-frames').value)
+                },
+                depth: {
+                    model_name: document.getElementById('depth-model').value,
+                    temporal_consistency: document.getElementById('temporal-consistency').checked
+                },
+                reconstruction: {
+                    method: document.getElementById('reconstruction-method').value,
+                    export_format: document.getElementById('export-format').value
+                },
+                export: {
+                    engine: document.getElementById('game-engine').value,
+                    project_name: document.getElementById('project-name').value
+                },
+                vr: {
+                    platforms: platforms
+                }
+            };
+        }
+
+        async function runPipeline() {
+            const prompt = document.getElementById('prompt').value.trim();
+            const imageFile = document.getElementById('image-upload').files[0];
+            
+            if (!prompt && !imageFile) {
+                alert('Please provide either a text prompt or upload an image.');
+                return;
+            }
+
+            // Reset UI
+            document.getElementById('progress-section').style.display = 'block';
+            document.getElementById('results-section').style.display = 'none';
+            document.querySelector('.run-button').disabled = true;
+            logMessages = [];
+            
+            // Reset stages
+            for (let i = 1; i <= 5; i++) {
+                updateStage(i, '', 'Waiting...');
+            }
+            updateProgress(0);
+
+            try {
+                addLog('Starting AI-to-VR pipeline...');
+                
+                const config = getConfig();
+                const requestData = {
+                    prompt: prompt,
+                    config: config
+                };
+
+                // Handle image upload if provided
+                if (imageFile) {
+                    // In a real implementation, you'd upload the image first
+                    addLog('Image upload functionality would be implemented here');
+                }
+
+                updateStage(1, 'active', 'Generating video...');
+                updateProgress(10);
+
+                const response = await fetch('/api/pipeline/run', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                if (result.success) {
+                    currentSessionId = result.session_id;
+                    
+                    // Simulate progress updates (in real implementation, use WebSocket or polling)
+                    await simulateProgress(result);
+                    
+                    displayResults(result);
+                } else {
+                    throw new Error(result.error || 'Pipeline failed');
+                }
+
+            } catch (error) {
+                addLog(`Error: ${error.message}`);
+                updateStage(1, 'error', error.message);
+                
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'error-message';
+                errorDiv.textContent = `Pipeline failed: ${error.message}`;
+                document.querySelector('.pipeline-container').insertBefore(
+                    errorDiv, 
+                    document.querySelector('.input-section')
+                );
+            } finally {
+                document.querySelector('.run-button').disabled = false;
+            }
+        }
+
+        async function simulateProgress(result) {
+            // Stage 1: Video Generation
+            updateStage(1, 'completed', 'Video generated successfully');
+            updateProgress(20);
+            await sleep(1000);
+
+            // Stage 2: Depth Extraction
+            updateStage(2, 'active', 'Extracting depth maps...');
+            updateProgress(40);
+            await sleep(2000);
+            updateStage(2, 'completed', 'Depth maps extracted');
+
+            // Stage 3: 3D Reconstruction
+            updateStage(3, 'active', 'Reconstructing 3D scene...');
+            updateProgress(60);
+            await sleep(3000);
+            updateStage(3, 'completed', '3D model created');
+
+            // Stage 4: Game Engine Export
+            updateStage(4, 'active', 'Exporting to game engine...');
+            updateProgress(80);
+            await sleep(2000);
+            updateStage(4, 'completed', 'Game engine project ready');
+
+            // Stage 5: VR Deployment
+            updateStage(5, 'active', 'Building VR applications...');
+            updateProgress(90);
+            await sleep(3000);
+            updateStage(5, 'completed', 'VR builds complete');
+            updateProgress(100);
+        }
+
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function displayResults(result) {
+            document.getElementById('results-section').style.display = 'block';
+            
+            const resultsContent = document.getElementById('results-content');
+            resultsContent.innerHTML = `
+                <div class="result-item">
+                    <h3>🎬 Generated Video</h3>
+                    <p>AI video successfully generated from your prompt</p>
+                    <div class="download-links">
+                        <a href="/api/download/${currentSessionId}/video" class="download-link">Download Video</a>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h3>🏗️ 3D Model</h3>
+                    <p>3D scene reconstructed and ready for VR</p>
+                    <div class="download-links">
+                        <a href="/api/download/${currentSessionId}/model" class="download-link">Download 3D Model</a>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h3>🎮 Game Engine Project</h3>
+                    <p>Unity/Unreal project with your 3D scene integrated</p>
+                    <div class="download-links">
+                        <a href="/api/download/${currentSessionId}/unity_project" class="download-link">Download Project</a>
+                    </div>
+                </div>
+                
+                <div class="result-item">
+                    <h3>🥽 VR Applications</h3>
+                    <p>Ready-to-deploy VR applications for your target platforms</p>
+                    <div class="download-links">
+                        <a href="/api/download/${currentSessionId}/vr_build" class="download-link">Download VR Build</a>
+                    </div>
+                </div>
+            `;
+            
+            addLog('Pipeline completed successfully! All files are ready for download.');
+        }
+
+        // Load available models on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/api/models');
+                const models = await response.json();
+                
+                // Update model dropdowns with available models
+                // This would populate the select elements with actual available models
+                addLog('Pipeline interface loaded successfully');
+            } catch (error) {
+                console.error('Failed to load models:', error);
+            }
+        });
+    </script>
+</body>
+</html>
