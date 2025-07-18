@@ -1,0 +1,164 @@
+{
+  "session_id": "aa80458e-e068-4569-97b5-cc24d35c58b8",
+  "prompt": "cat dancing",
+  "image_path": null,
+  "config": {
+    "video": {
+      "model_name": "animate_diff",
+      "resolution": [
+        512,
+        512
+      ],
+      "num_frames": 25
+    },
+    "depth": {
+      "model_name": "midas",
+      "temporal_consistency": true
+    },
+    "reconstruction": {
+      "method": "rgbd_fusion",
+      "export_format": ".glb"
+    },
+    "export": {
+      "engine": "unity",
+      "project_name": "AI_VR_Scene"
+    },
+    "vr": {
+      "platforms": [
+        "quest",
+        "vision_pro",
+        "webxr"
+      ]
+    }
+  },
+  "timestamp": "2025-07-16T00:20:17.495914",
+  "results": {
+    "video": {
+      "success": true,
+      "video_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\generated_video.mp4",
+      "frames_dir": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\frames",
+      "num_frames": 25,
+      "fps": 8,
+      "resolution": [
+        512,
+        512
+      ]
+    },
+    "depth": {
+      "success": true,
+      "frames_dir": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\frames",
+      "depth_dir": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps",
+      "num_frames": 25,
+      "visual_paths": [
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0000.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0001.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0002.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0003.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0004.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0005.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0006.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0007.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0008.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0009.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0010.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0011.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0012.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0013.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0014.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0015.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0016.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0017.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0018.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0019.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0020.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0021.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0022.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0023.png",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0024.png"
+      ],
+      "raw_paths": [
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0000.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0001.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0002.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0003.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0004.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0005.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0006.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0007.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0008.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0009.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0010.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0011.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0012.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0013.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0014.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0015.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0016.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0017.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0018.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0019.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0020.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0021.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0022.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0023.npy",
+        "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\depth_maps\\depth_0024.npy"
+      ]
+    },
+    "reconstruction": {
+      "success": true,
+      "model_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\reconstructed_model.ply",
+      "method": "rgbd_fusion",
+      "format": ".glb",
+      "num_frames": 25
+    },
+    "export": {
+      "success": true,
+      "engine": "unity",
+      "project_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Scene",
+      "packaged_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Scene_unity.zip",
+      "imported_model_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Scene\\Assets\\Models\\reconstructed_model.ply"
+    },
+    "vr": {
+      "success": true,
+      "deployment_results": {
+        "quest": {
+          "success": true,
+          "build_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Experience.apk",
+          "platform_info": {
+            "name": "Meta Quest",
+            "build_target": "Android",
+            "package_format": ".apk",
+            "sdk_required": "Android SDK"
+          }
+        },
+        "vision_pro": {
+          "success": true,
+          "build_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Experience.ipa",
+          "platform_info": {
+            "name": "Apple Vision Pro",
+            "build_target": "visionOS",
+            "package_format": ".ipa",
+            "sdk_required": "visionOS SDK"
+          }
+        },
+        "webxr": {
+          "success": true,
+          "build_path": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8\\AI_VR_Experience_webxr.zip",
+          "platform_info": {
+            "name": "WebXR",
+            "build_target": "WebGL",
+            "package_format": ".zip",
+            "sdk_required": null
+          }
+        }
+      },
+      "summary": {
+        "total_platforms": 3,
+        "successful_builds": 3,
+        "failed_builds": 0,
+        "build_name": "AI_VR_Experience",
+        "output_directory": "D:\\ai-to-3d-vr-comprehensive\\static\\output\\aa80458e-e068-4569-97b5-cc24d35c58b8"
+      }
+    }
+  }
+}
